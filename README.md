@@ -27,3 +27,4 @@ $(function() {
 ```
 
 ## 実行例
+![](https://raw.githubusercontent.com/ya-s-u/VerticalTextBox/master/example.png)
