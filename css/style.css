@@ -1,0 +1,25 @@
+/* Reset */
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+	float: left;
+	list-style: none;
+}
+
+a {
+	text-decoration: none;
+	color: #2a0e00;
+}
+
+p {
+	color: #2a0e00;
+	margin: 0;
+}
+
+/* Common */
+body {
+  font-family: "ヒラギノ角ゴ Pro W3";
+}
