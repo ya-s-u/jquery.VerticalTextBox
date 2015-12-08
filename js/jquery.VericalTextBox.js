@@ -10,7 +10,8 @@
       height  : 400,
       rows  : 3,
       size  : 18,
-      text   : "これはサンプルテキストです。"
+      text   : "これはサンプルテキストです。",
+      additionalRule  : []
     };
     var setting = $.extend(defaults, options);
 
@@ -19,21 +20,8 @@
     var horizon_chars = Math.floor(setting.width / setting.size);
     var vertical_chars = Math.floor((setting.height / setting.rows) / setting.size);
     var row_chars = horizon_chars * vertical_chars;
-    var rules = [
-      "、", "）",  // 終わり括弧類
-      "ァ", "ィ", "ゥ", "ェ", "ォ",  // 行頭禁則和字
-      "ッ", "ャ", "ュ", "ョ", "ヮ",
-      "ヵ", "ヶ", "ぁ", "ぃ", "ぅ",
-      "ぇ", "ぉ", "っ", "ゃ", "ゅ",
-      "ょ", "ゎ", "ゕ", "ゖ", "ㇰ",
-      "ㇱ", "ㇲ", "ㇳ", "ㇴ", "ㇵ",
-      "ㇶ", "ㇷ", "ㇸ", "ㇹ", "ㇷ",
-      "゚", "ㇺ", "ㇻ", "ㇼ", "ㇽ",
-      "ㇾ", "ㇿ",
-      "～",  // ハイフン類
-      "・",  // 中点類
-      "。" // 句点類
-    ]
+    var rules = ["、", "）", "っ", "～", "・", "。"];
+    rules = rules.concat(setting.additionalRule)
     var lines = [];
 
     // 文字列を行に変換
