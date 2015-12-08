@@ -21,6 +21,7 @@ $(function() {
     height  : 600,  // ボックスの高さ
     rows  : 4,  // 行数
     size  : 18, // 文字サイズ
+    additionalRule  : ["・"], // 禁則処理する文字
     text: "fugafuga"  // 流し込む文字列
   });
 });
