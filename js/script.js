@@ -1,6 +1,6 @@
 $(function() {
   $("#article").VerticalTextBox({
-    width : 240,
+    width : 260,
     height  : 600,
     rows  : 4,
     size  : 18,

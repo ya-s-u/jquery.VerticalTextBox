@@ -21,5 +21,6 @@ p {
 
 /* Common */
 body {
+  padding: 20px;
   font-family: "ヒラギノ角ゴ Pro W3";
 }

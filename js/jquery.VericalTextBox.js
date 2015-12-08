@@ -10,17 +10,70 @@
       height  : 400,
       rows  : 3,
       size  : 18,
-      text   : 'これはサンプルテキストです。'
+      text   : "これはサンプルテキストです。"
     };
     var setting = $.extend(defaults, options);
 
-    // 段落生成
+    // 変数宣言
     var rows = [];
     var horizon_chars = Math.floor(setting.width / setting.size);
     var vertical_chars = Math.floor((setting.height / setting.rows) / setting.size);
     var row_chars = horizon_chars * vertical_chars;
+    var rules = [
+      "、", "）",  // 終わり括弧類
+      "ァ", "ィ", "ゥ", "ェ", "ォ",  // 行頭禁則和字
+      "ッ", "ャ", "ュ", "ョ", "ヮ",
+      "ヵ", "ヶ", "ぁ", "ぃ", "ぅ",
+      "ぇ", "ぉ", "っ", "ゃ", "ゅ",
+      "ょ", "ゎ", "ゕ", "ゖ", "ㇰ",
+      "ㇱ", "ㇲ", "ㇳ", "ㇴ", "ㇵ",
+      "ㇶ", "ㇷ", "ㇸ", "ㇹ", "ㇷ",
+      "゚", "ㇺ", "ㇻ", "ㇼ", "ㇽ",
+      "ㇾ", "ㇿ",
+      "～",  // ハイフン類
+      "・",  // 中点類
+      "。" // 句点類
+    ]
+    var lines = [];
 
+    // 文字列を行に変換
+    for(var i=0; i<horizon_chars*setting.rows; i++) {
+      lines[i] = setting.text.substr(i*vertical_chars, vertical_chars);
+    }
+
+    // 禁則処理を適用
+    var size = lines.length;
+    for (var i=0; i<size; i++) {
+      var word = lines[i][0];
+
+      if(rules.indexOf(word) >= 0) {
+        var movedWords = lines[i-1].substr((lines[i-1].length-1));
+
+        lines[i-1] = lines[i-1].slice(0,-1);
+        lines[i] = movedWords + lines[i];
+      }
+
+      if(lines[i].length > vertical_chars) {
+        var offset = lines[i].length - vertical_chars;
+        var movedWords = lines[i].substr(lines[i].length-offset);
+
+        lines[i] = lines[i].substr(0, lines[i].length-offset);
+        lines[i+1] = movedWords + lines[i+1];
+      }
+    }
+
+    // 段落生成
     for(var i=0; i<setting.rows; i++) {
+      var html = "";
+      for(var j=0; j<horizon_chars; j++) {
+        if(lines[i*horizon_chars+j].length < vertical_chars) {
+          var offset = vertical_chars - lines[i*horizon_chars+j].length;
+          html += "<p class='offset"+offset+"'>"+lines[i*horizon_chars+j]+"</p>";
+        } else {
+          html += "<p>"+lines[i*horizon_chars+j]+"</p>";
+        }
+      }
+
       var row = $("<div></div>", {
         width: setting.width,
         height: setting.height / setting.rows,
@@ -28,13 +81,13 @@
           float: "left",
         },
         addClass: "child",
-        text: setting.text.substr(i*row_chars, row_chars)
+        html: html
       });
       rows.push(row);
     }
 
     // ボックス出力
-    Box.width(setting.width);
+    Box.width(setting.width+20);
     Box.height(setting.height + setting.rows);
     Box.css({
       "overflow": "hidden",
@@ -42,9 +95,21 @@
       "font-size": setting.size,
       "line-height": "1em",
       "white-space":  "pre",
-      "overflow-wrap":  "break-word"
     })
-    Box.append("<style>.child{border-bottom:1px solid silver}</style>")
+    Box.append("<style>\
+      .child{\
+        border-bottom:1px solid silver\
+      }\
+      p.offset1{\
+        letter-spacing: "+Math.round((vertical_chars/(vertical_chars-1)-1) * 1000)/1000+"em;\
+      }\
+      p.offset2{\
+        letter-spacing: "+Math.round((vertical_chars/(vertical_chars-2)-1) * 1000)/1000+"em;\
+      }\
+      p.offset3{\
+        letter-spacing: "+Math.round((vertical_chars/(vertical_chars-3)-1) * 1000)/1000+"em;\
+      }\
+    </style>")
     $.each(rows, function(i, val) { Box.append(rows[i]) })
 
     // メソッドチェーン対応
