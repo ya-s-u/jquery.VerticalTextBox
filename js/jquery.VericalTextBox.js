@@ -8,6 +8,8 @@
     var defaults = {
       width : 240,
       height  : 400,
+      x : 0,
+      y : 0,
       rows  : 3,
       size  : 18,
       text   : "これはサンプルテキストです。",
@@ -20,7 +22,7 @@
     var horizon_chars = Math.floor(setting.width / setting.size);
     var vertical_chars = Math.floor((setting.height / setting.rows) / setting.size);
     var row_chars = horizon_chars * vertical_chars;
-    var rules = ["、", "）", "っ", "～", "・", "。"];
+    var rules = ["、", "）", "っ", "～", "。"];
     rules = rules.concat(setting.additionalRule)
     var lines = [];
 
@@ -82,7 +84,10 @@
       "-webkit-writing-mode": "vertical-rl",
       "font-size": setting.size,
       "line-height": "1em",
-      "white-space":  "pre",
+      "white-space": "pre",
+      "position": "absolute",
+      "top": setting.x,
+      "left": setting.y
     })
     Box.append("<style>\
       .child{\
