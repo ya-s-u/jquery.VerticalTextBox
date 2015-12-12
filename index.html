@@ -4,14 +4,130 @@
   <meta charset="utf-8">
   <title>VerticalTextBox サンプルページ</title>
 
+  <link rel="stylesheet" href="./css/bootstrap.min.css">
   <link rel="stylesheet" href="./css/normalize.css">
   <link rel="stylesheet" href="./css/style.css">
-
-  <script src="./js/jquery-1.11.3.min.js"></script>
-  <script src="./js/jquery.VericalTextBox.js"></script>
-  <script src="./js/script.js"></script>
 </head>
 <body>
-  <div id="article"></div>
+  <div class="container">
+    <div class="col-md-8">
+      <div id="article"></div>
+    </div>
+    <div class="col-md-4">
+      <div id="app" class="panel panel-default" style="overflow: hidden;">
+        <div class="panel-heading">設定</div>
+        <ul class="list-group">
+
+          <li class="list-group-item">
+            <div class="form-group">
+              <label for="exampleInputName2">Width {{ width }}</label>
+              <div class="input-group">
+                <input v-model="width" type="text" class="form-control" id="exampleInputAmount" placeholder="240">
+                <div class="input-group-addon">px</div>
+              </div>
+            </div>
+          </li>
+
+          <li class="list-group-item">
+            <div class="form-group">
+              <label for="exampleInputName2">Height</label>
+              <div class="input-group">
+                <input v-model="height" type="text" class="form-control" id="exampleInputAmount" placeholder="400">
+                <div class="input-group-addon">px</div>
+              </div>
+            </div>
+          </li>
+
+          <li class="list-group-item">
+            <div class="form-group">
+              <label for="exampleInputName2">X</label>
+              <div class="input-group">
+                <input v-model="x" type="text" class="form-control" id="exampleInputAmount" placeholder="0">
+                <div class="input-group-addon">px</div>
+              </div>
+            </div>
+          </li>
+
+          <li class="list-group-item">
+            <div class="form-group">
+              <label for="exampleInputName2">Y</label>
+              <div class="input-group">
+                <input v-model="y" type="text" class="form-control" id="exampleInputAmount" placeholder="0">
+                <div class="input-group-addon">px</div>
+              </div>
+            </div>
+          </li>
+
+          <li class="list-group-item">
+            <div class="form-group">
+              <label for="exampleInputName2">Rows</label>
+              <div class="input-group">
+                <input v-model="rows" type="text" class="form-control" id="exampleInputAmount" placeholder="3">
+              </div>
+            </div>
+          </li>
+
+          <li class="list-group-item">
+            <div class="form-group">
+              <label for="exampleInputName2">Size</label>
+              <div class="input-group">
+                <input v-model="size" type="text" class="form-control" id="exampleInputAmount" placeholder="18">
+                <div class="input-group-addon">px</div>
+              </div>
+            </div>
+          </li>
+
+          <li class="list-group-item">
+            <div class="form-group">
+              <label for="exampleInputName2">Title</label>
+              <div class="input-group">
+                <input v-model="title" type="text" class="form-control" id="exampleInputAmount" placeholder="">
+              </div>
+            </div>
+          </li>
+
+          <li class="list-group-item">
+            <div class="form-group">
+              <label for="exampleInputName2">Title Reverse</label>
+              <div class="input-group">
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+                      通常
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                      反転
+                  </label>
+                </div>
+              </div>
+            </div>
+          </li>
+
+          <li class="list-group-item">
+            <div class="form-group">
+              <label for="exampleInputName2">Text</label>
+              <div class="input-group">
+                <textarea v-model="text" class="form-control" rows="3"></textarea>
+              </div>
+            </div>
+          </li>
+
+          <li class="list-group-item">
+            <button v-on:click="generate" type="button" class="btn btn-primary btn-lg btn-block">生成する</button>
+          </li>
+
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+<script src="./js/jquery-1.11.3.min.js"></script>
+<script src="./js/jquery.VericalTextBox.js"></script>
+<script src="./js/vue.min.js"></script>
+<script src="./js/script.js"></script>
 </body>
 </html>
