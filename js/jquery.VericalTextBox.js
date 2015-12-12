@@ -14,12 +14,15 @@
       size  : 18,
       additionalRule  : [],
       text  : "これはサンプルテキストです。",
-      title : "サンプルタイトル"
+      title : "サンプルタイトル",
+      titleReverse  : false
     };
     var setting = $.extend(defaults, options);
 
     // タイトル生成
     var titleFontSize = (setting.height-10*2) / setting.title.length;
+    var titleFontColor = setting.titleReverse ? 'white' : 'black';
+    var titleBackgroundColor = setting.titleReverse ? 'black' : 'white';
     var title = $("<div></div>", {
       width: titleFontSize+20,
       height: setting.height,
@@ -91,7 +94,7 @@
     }
 
     // ボックス出力
-    Box.width(setting.width+20);
+    Box.width(setting.width+40);
     Box.height(setting.height + setting.rows);
     Box.css({
       "overflow": "hidden",
@@ -104,10 +107,14 @@
       "left": setting.y
     })
     Box.append("<style>\
+      .title{\
+        background: "+titleBackgroundColor+"\
+      }\
       .title h1{\
         width: "+titleFontSize+"px;\
         margin: 10px "+titleFontSize/2+"px;\
         font-size: "+titleFontSize+"px;\
+        color: "+titleFontColor+";\
       }\
       .child{\
         border-bottom:1px solid silver;\
