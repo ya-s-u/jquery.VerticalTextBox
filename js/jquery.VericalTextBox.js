@@ -12,10 +12,24 @@
       y : 0,
       rows  : 3,
       size  : 18,
-      text   : "これはサンプルテキストです。",
-      additionalRule  : []
+      additionalRule  : [],
+      text  : "これはサンプルテキストです。",
+      title : "サンプルタイトル"
     };
     var setting = $.extend(defaults, options);
+
+    // タイトル生成
+    var titleFontSize = (setting.height-10*2) / setting.title.length;
+    var title = $("<div></div>", {
+      width: titleFontSize+20,
+      height: setting.height,
+      css: {
+        float: "left",
+      },
+      addClass: "title",
+      html: "<h1>"+setting.title+"</h1>"
+    });
+    Box.append(title)
 
     // 変数宣言
     var rows = [];
@@ -90,8 +104,12 @@
       "left": setting.y
     })
     Box.append("<style>\
+      .title h1{\
+        margin: 10px 10px 10px 0px;\
+        font-size: "+titleFontSize+"px;\
+      }\
       .child{\
-        border-bottom:1px solid silver\
+        border-bottom:1px solid silver;\
       }\
       p.offset1{\
         letter-spacing: "+Math.round((vertical_chars/(vertical_chars-1)-1) * 1000)/1000+"em;\
