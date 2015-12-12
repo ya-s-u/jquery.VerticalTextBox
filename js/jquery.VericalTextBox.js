@@ -105,7 +105,8 @@
     })
     Box.append("<style>\
       .title h1{\
-        margin: 10px 10px 10px 0px;\
+        width: "+titleFontSize+"px;\
+        margin: 10px "+titleFontSize/2+"px;\
         font-size: "+titleFontSize+"px;\
       }\
       .child{\
