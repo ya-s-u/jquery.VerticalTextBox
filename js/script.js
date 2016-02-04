@@ -12,36 +12,3 @@ $(function() {
     titleReverse  : false,
   });
 });
-
-new Vue({
-  el: '#app',
-  data: {
-    width: 240,
-    height: 400,
-    x: 0,
-    y: 0,
-    rows: 3,
-    size: 18,
-    text : "",
-    title: "",
-    titleReverse : false
-  },
-  methods: {
-    generate: function () {
-      $(function() {
-        $("#article").VerticalTextBox({
-          width : this.width,
-          height  : this.height,
-          x : this.x,
-          y : this.y,
-          rows  : this.rows,
-          size  : this.size,
-          additionalRule: ["・"],
-          text: this.text,
-          title: this.title,
-          titleReverse  : this.titleReverse,
-        });
-      });
-    },
-  }
-});
