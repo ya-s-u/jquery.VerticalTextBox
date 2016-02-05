@@ -12,7 +12,6 @@
       y : 0,
       rows  : 3,
       size  : 18,
-      additionalRule  : [],
       text  : "これはサンプルテキストです。",
       title : "サンプルタイトル",
       titleReverse  : false
@@ -40,7 +39,6 @@
     var vertical_chars = Math.floor((setting.height / setting.rows) / setting.size);
     var row_chars = horizon_chars * vertical_chars;
     var rules = ["、", "）", "っ", "～", "。"];
-    rules = rules.concat(setting.additionalRule)
     var lines = [];
 
     // 文字列を行に変換
