@@ -6,128 +6,96 @@
 
     // デフォルト引数
     var defaults = {
-      width : 240,
-      height  : 400,
-      x : 0,
-      y : 0,
-      rows  : 3,
-      size  : 18,
-      text  : "これはサンプルテキストです。",
-      title : "サンプルタイトル",
-      titleReverse  : false
+      position: {
+        x: 20,
+        y: 20,
+        align: "right"
+      },
+      rows: [
+        {width: 0, height: 0}
+      ],
+      title: {
+        text: "",
+        size: 22,
+        reverse: false
+      },
+      content: {
+        text: "",
+        size: 18
+      },
+      rules: [
+        "、", "。", "）", "～"
+      ]
     };
     var setting = $.extend(defaults, options);
 
-    // タイトル生成
-    var titleFontSize = (setting.height-10*2) / setting.title.length;
-    var titleFontColor = setting.titleReverse ? 'white' : 'black';
-    var titleBackgroundColor = setting.titleReverse ? 'black' : 'white';
-    var title = $("<div></div>", {
-      width: titleFontSize+20,
-      height: setting.height,
+    // ボックス定義
+    var frame = {width: 0, height: 0}
+    $.each(setting.rows, function(i, val) {
+      if(val.width > frame.width) frame.width = val.width
+      frame.height += val.height
+    })
+    Box.width(frame.width)
+    Box.height(frame.height)
+
+    // タイトル
+    var title = $("<h2></h2>", {
+      width: setting.title.size,
       css: {
-        float: "left",
+        "position": "absolute",
+        "top": "0",
+        "margin": "0",
+        "font-size": setting.title.size,
       },
-      addClass: "title",
-      html: "<h1>"+setting.title+"</h1>"
+      html: setting.title.text
     });
+    setting.position.align == "left" ? title.css({"left": "0"}) : title.css({"right": "0"})
     Box.append(title)
 
-    // 変数宣言
-    var rows = [];
-    var horizon_chars = Math.floor(setting.width / setting.size);
-    var vertical_chars = Math.floor((setting.height / setting.rows) / setting.size);
-    var row_chars = horizon_chars * vertical_chars;
-    var rules = ["、", "）", "っ", "～", "。"];
-    var lines = [];
-
-    // 文字列を行に変換
-    for(var i=0; i<horizon_chars*setting.rows; i++) {
-      lines[i] = setting.text.substr(i*vertical_chars, vertical_chars);
-    }
-
-    // 禁則処理を適用
-    var size = lines.length;
-    for (var i=0; i<size; i++) {
-      var word = lines[i][0];
-
-      if(rules.indexOf(word) >= 0) {
-        var movedWords = lines[i-1].substr((lines[i-1].length-1));
-
-        lines[i-1] = lines[i-1].slice(0,-1);
-        lines[i] = movedWords + lines[i];
+    // 段落
+    var top = 0, pos = 0;
+    $.each(setting.rows, function(i, val) {
+      var count = {
+        horizon: Math.floor((val.width-setting.title.size)/setting.content.size/1.2-1),
+        vertical: Math.floor(val.height/setting.content.size)
       }
+      count.total = count.horizon * count.vertical
 
-      if(lines[i].length > vertical_chars) {
-        var offset = lines[i].length - vertical_chars;
-        var movedWords = lines[i].substr(lines[i].length-offset);
-
-        lines[i] = lines[i].substr(0, lines[i].length-offset);
-        lines[i+1] = movedWords + lines[i+1];
+      var prohibit = 0;
+      for(var j=0; j<count.horizon; j++) {
+        var char = setting.content.text[pos+count.vertical+j*count.vertical]
+        if($.inArray(char, setting.rules) > -1) prohibit++
       }
-    }
+      count.total -= prohibit
 
-    // 段落生成
-    for(var i=0; i<setting.rows; i++) {
-      var html = "";
-      for(var j=0; j<horizon_chars; j++) {
-        if(lines[i*horizon_chars+j].length < vertical_chars) {
-          var offset = vertical_chars - lines[i*horizon_chars+j].length;
-          html += "<p class='offset"+offset+"'>"+lines[i*horizon_chars+j]+"</p>";
-        } else {
-          html += "<p>"+lines[i*horizon_chars+j]+"</p>";
-        }
-      }
-
-      var row = $("<div></div>", {
-        width: setting.width,
-        height: setting.height / setting.rows,
+      var row = $("<p></p>", {
+        width: val.width - setting.title.size,
+        height: val.height,
         css: {
-          float: "left",
+          "overflow": "hidden",
+          "position": "absolute",
+          "top": top+"px",
+          "font-size": setting.content.size+"px",
         },
-        addClass: "child",
-        html: html
+        html: setting.content.text.substr(pos, count.total)
       });
-      rows.push(row);
-    }
+      top += val.height
+      pos += count.total
+      var offset = setting.title.size+"px"
+      setting.position.align == "left" ? row.css({"left": offset}) : row.css({"right": offset})
+      Box.append(row)
+    })
 
-    // ボックス出力
-    Box.width(setting.width+40);
-    Box.height(setting.height + setting.rows);
+    // デザイン
+    Box.addClass("box");
     Box.css({
       "overflow": "hidden",
-      "-webkit-writing-mode": "vertical-rl",
-      "font-size": setting.size,
-      "line-height": "1em",
-      "white-space": "pre",
       "position": "absolute",
-      "top": setting.x,
-      "left": setting.y
+      "left": setting.position.x,
+      "top": setting.position.y,
+      "-webkit-writing-mode": "vertical-rl",
+      "line-height": "1.5em",
     })
-    Box.append("<style>\
-      .title{\
-        background: "+titleBackgroundColor+"\
-      }\
-      .title h1{\
-        width: "+titleFontSize+"px;\
-        margin: 10px "+titleFontSize/2+"px;\
-        font-size: "+titleFontSize+"px;\
-        color: "+titleFontColor+";\
-      }\
-      .child{\
-        border-bottom:1px solid silver;\
-      }\
-      p.offset1{\
-        letter-spacing: "+Math.round((vertical_chars/(vertical_chars-1)-1) * 1000)/1000+"em;\
-      }\
-      p.offset2{\
-        letter-spacing: "+Math.round((vertical_chars/(vertical_chars-2)-1) * 1000)/1000+"em;\
-      }\
-      p.offset3{\
-        letter-spacing: "+Math.round((vertical_chars/(vertical_chars-3)-1) * 1000)/1000+"em;\
-      }\
-    </style>")
-    $.each(rows, function(i, val) { Box.append(rows[i]) })
 
     // メソッドチェーン対応
     return(this);

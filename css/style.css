@@ -22,5 +22,12 @@ p {
 /* Common */
 body {
   font-family: "ヒラギノ角ゴ Pro W3";
-  padding: 20px 0;
+  padding: 0;
+}
+
+.articles {
+  position: absolute;
+  margin: 20px;
+  width: 100%;
+  height: 100%;
 }
