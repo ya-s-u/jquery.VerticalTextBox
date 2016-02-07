@@ -49,14 +49,15 @@
       },
       html: setting.title.text
     });
-    setting.position.align == "left" ? title.css({"left": "0"}) : title.css({"right": "0"})
+    var offset = setting.rows[0].width - setting.title.size
+    setting.position.align == "left" ? title.css({"left": offset+"px"}) : title.css({"right": "0"})
     Box.append(title)
 
     // 段落
-    var top = 0, pos = 0;
+    var top = 0, pos = 0, width = setting.rows[0].width;
     $.each(setting.rows, function(i, val) {
       var count = {
-        horizon: Math.floor((val.width-setting.title.size)/setting.content.size/1.2-1),
+        horizon: Math.floor((val.width == width ? val.width - setting.title.size : val.width)/setting.content.size/1.2-1),
         vertical: Math.floor(val.height/setting.content.size)
       }
       count.total = count.horizon * count.vertical
@@ -69,20 +70,21 @@
       count.total -= prohibit
 
       var row = $("<p></p>", {
-        width: val.width - setting.title.size,
-        height: val.height,
+        width: val.width == width ? val.width - setting.title.size : val.width,
+        height: val.height-1,
         css: {
           "overflow": "hidden",
           "position": "absolute",
           "top": top+"px",
           "font-size": setting.content.size+"px",
+          "border-bottom": "1px solid #aaa",
         },
         html: setting.content.text.substr(pos, count.total)
       });
       top += val.height
       pos += count.total
       var offset = setting.title.size+"px"
-      setting.position.align == "left" ? row.css({"left": offset}) : row.css({"right": offset})
+      setting.position.align == "left" ? row.css({"left": "0"}) : row.css({"right": offset})
       Box.append(row)
     })
 

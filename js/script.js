@@ -123,7 +123,7 @@ $(function() {
       {width: 4/16*size.width, height: 1/5*size.height},
     ],
     title: {
-      text: "熊本の２４歳男逮捕",
+      text: "２４歳男逮捕",
       size: 24,
       reverse: false
     },
