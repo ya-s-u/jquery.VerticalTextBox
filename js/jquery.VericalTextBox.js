@@ -23,6 +23,9 @@
         text: "",
         size: 18
       },
+      image: {
+        src: ""
+      },
       rules: [
         "、", "。", "）", "～"
       ]
@@ -52,6 +55,24 @@
     var offset = setting.rows[0].width - setting.title.size
     setting.position.align == "left" ? title.css({"left": offset+"px"}) : title.css({"right": "0"})
     Box.append(title)
+
+    // 画像
+    if(setting.image.src != "") {
+      var image = $("<img>", {
+        width: 200,
+        height: setting.rows[0].height,
+        css: {
+          "position": "absolute",
+          "top": "0",
+          "left": 0,
+          "margin": "0",
+          "font-size": setting.title.size,
+        },
+        src: setting.image.src
+      })
+      Box.append(image)
+      setting.rows[0].width -= 210;
+    }
 
     // 段落
     var top = 0, pos = 0, width = setting.rows[0].width;
