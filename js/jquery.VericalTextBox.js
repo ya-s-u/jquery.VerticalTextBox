@@ -69,6 +69,13 @@
       }
       count.total -= prohibit
 
+      var str = setting.content.text.substr(pos, count.total)
+      var body = str.replace(/([０-９]{2})/g, function($) {
+    		var n1 = String.fromCharCode($[0].charCodeAt(0)-0xFEE0);
+    		var n2 = String.fromCharCode($[1].charCodeAt(0)-0xFEE0);
+        return "<span style='-webkit-writing-mode:horizontal-tb;font-size:16px;letter-spacing:-1px;'>"+n1+n2+"</span>"
+    	});
+
       var row = $("<p></p>", {
         width: val.width == width ? val.width - setting.title.size : val.width,
         height: val.height-1,
@@ -79,7 +86,7 @@
           "font-size": setting.content.size+"px",
           "border-bottom": "1px solid #aaa",
         },
-        html: setting.content.text.substr(pos, count.total)
+        html: body
       });
       top += val.height
       pos += count.total
