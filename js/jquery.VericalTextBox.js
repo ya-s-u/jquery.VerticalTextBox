@@ -76,6 +76,8 @@
         return "<span style='-webkit-writing-mode:horizontal-tb;font-size:16px;letter-spacing:-1px;'>"+n1+n2+"</span>"
     	});
 
+      if(i == setting.rows.length-1) { body = body.match(/(.+。)/)[0]; }
+
       var row = $("<p></p>", {
         width: val.width == width ? val.width - setting.title.size : val.width,
         height: val.height-1,
